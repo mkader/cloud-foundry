@@ -1,0 +1,50 @@
+Cloud Foundary Notes
+https://cloudnative.ly/cf-cli-cheatsheet-47e61f2d50fe
+http://cli.cloudfoundry.org/en-US/cf/
+
+cf
+	cf login -a https://api.dev.company.net -u first.lastnamer@company.com -o org_name -s space_dev
+	cf login -a https://api.prod.company.net -u first.last@company.com -o org_name -s production
+
+	cf set-org-role first.last@company.com org_name OrgAuditor
+	
+	cf set-space-role first.last@company.com org_name space_dev SpaceDeveloper
+	cf set-space-role first.last@company.com org_name space_dev SpaceAuditor
+	
+
+cf ssh - https://docs.cloudfoundry.org/devguide/deploy-apps/ssh-apps.html
+ 
+	cf login -a https://api.dev.company.net -u first.lastnamer@company.com -o org_name -s space_dev
+	cf enable-ssh comp-prd-api-dev
+	cf space-ssh-allowed production
+	cf ssh comp-prd-api-dev => login linux server
+		root@fda1c49c-e9d6-4549-50f7-4650:~# cd ..
+		root@fda1c49c-e9d6-4549-50f7-4650:/# ls
+			app  bin  boot  dev  etc  home  lib  lib64  media  mnt  newrelic  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+		root@fda1c49c-e9d6-4549-50f7-4650:/# cd app
+		root@fda1c49c-e9d6-4549-50f7-4650:/app# dir
+			Microsoft.Extensions.dll	comp.prd.api.dev.dll	Serilog..dll	Swashbuckle.AspNetCore.SwaggerUI.dll	appsettings.json ...
+		remove file - rm appsettings.Development.json
+		read file - head appsettings.json, head -20 appsettings.json
+	cf app comp-prd-api-dev  => see the version
+	cf app comp-prd-api-dev --guid b0164db6-2af5-4287-9587-9aeddd0be1f2
+	cf curl /v2/apps/b0164db6-2af5-4287-9587-9aeddd0be1f2/stats
+	{
+	   "0": {
+	      "state": "RUNNING",
+	      "isolation_segment": null,
+	      "stats": {
+		 "name": "comp-prd-api-dev",
+		 "uris": [
+		    "comp-prd-api-dev.dev.company.net"
+		 ],
+		 "host": "1.2.1.6",
+		 "port": 0,
+		 ....
+	      }
+	   },
+	   "1": {
+	      "state": "RUNNING",
+	      
+	   }
+	}
